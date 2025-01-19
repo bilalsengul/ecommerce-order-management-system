@@ -140,7 +140,16 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
+    try
+    {
+        context.Database.EnsureCreated(); // This will create the database and apply the model configuration
+        Log.Information("Database created successfully");
+    }
+    catch (Exception ex)
+    {
+        Log.Error(ex, "An error occurred while creating the database");
+        throw;
+    }
 }
 
 app.Run();
