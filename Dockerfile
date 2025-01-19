@@ -9,6 +9,7 @@ COPY ["ECommerceOrderManagement.API/ECommerceOrderManagement.API.csproj", "EComm
 COPY ["ECommerceOrderManagement.Core/ECommerceOrderManagement.Core.csproj", "ECommerceOrderManagement.Core/"]
 COPY ["ECommerceOrderManagement.Infrastructure/ECommerceOrderManagement.Infrastructure.csproj", "ECommerceOrderManagement.Infrastructure/"]
 RUN dotnet restore "ECommerceOrderManagement.API/ECommerceOrderManagement.API.csproj"
+RUN dotnet tool install --global dotnet-ef
 COPY . .
 WORKDIR "/src/ECommerceOrderManagement.API"
 RUN dotnet build "ECommerceOrderManagement.API.csproj" -c Release -o /app/build
