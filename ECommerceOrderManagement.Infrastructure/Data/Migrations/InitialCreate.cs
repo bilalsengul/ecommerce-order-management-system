@@ -27,9 +27,11 @@ namespace ECommerceOrderManagement.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false)
+                    LastName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,10 +115,17 @@ namespace ECommerceOrderManagement.Infrastructure.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "FirstName", "LastName", "Email" },
+                columns: new[] { "Id", "Username", "Email", "PasswordHash", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("12345678-1234-1234-1234-123456789012"), "John", "Doe", "john.doe@example.com" }
+                    { 
+                        new Guid("12345678-1234-1234-1234-123456789012"),
+                        "johndoe",
+                        "john.doe@example.com",
+                        "AQAAAAIAAYagAAAAEPxuvpHZd4Sjm1/K7xakWoNDr3XW8qujqpC/rJrYR1PZLJ6VVwbf+BebD0qSt2czaA==",
+                        "John",
+                        "Doe"
+                    }
                 });
         }
 
