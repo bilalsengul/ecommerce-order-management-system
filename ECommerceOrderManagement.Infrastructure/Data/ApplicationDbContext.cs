@@ -30,8 +30,8 @@ namespace ECommerceOrderManagement.Infrastructure.Data
                     .IsRequired();
                 entity.Property(e => e.Status).IsRequired();
 
-                entity.HasOne<User>()
-                    .WithMany()
+                entity.HasOne(e => e.User)
+                    .WithMany(u => u.Orders)
                     .HasForeignKey(e => e.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
@@ -44,14 +44,17 @@ namespace ECommerceOrderManagement.Infrastructure.Data
                 entity.Property(e => e.UnitPrice)
                     .HasColumnType("decimal(18,2)")
                     .IsRequired();
+                entity.Property(e => e.TotalPrice)
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
 
-                entity.HasOne<Order>()
+                entity.HasOne(e => e.Order)
                     .WithMany(o => o.OrderItems)
                     .HasForeignKey(e => e.OrderId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne<Product>()
-                    .WithMany()
+                entity.HasOne(e => e.Product)
+                    .WithMany(p => p.OrderItems)
                     .HasForeignKey(e => e.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
@@ -71,11 +74,11 @@ namespace ECommerceOrderManagement.Infrastructure.Data
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.Property(e => e.Username).IsRequired();
+                entity.Property(e => e.Email).IsRequired();
+                entity.Property(e => e.PasswordHash).IsRequired();
                 entity.Property(e => e.FirstName).IsRequired();
                 entity.Property(e => e.LastName).IsRequired();
-                entity.Property(e => e.Email).IsRequired();
-                entity.Property(e => e.Username).IsRequired();
-                entity.Property(e => e.PasswordHash).IsRequired();
             });
 
             // Seed initial data
@@ -114,11 +117,11 @@ namespace ECommerceOrderManagement.Infrastructure.Data
                 new User
                 {
                     Id = new Guid("12345678-1234-1234-1234-123456789012"),
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Email = "john.doe@example.com",
                     Username = "johndoe",
-                    PasswordHash = "AQAAAAIAAYagAAAAEPxuvpHZd4Sjm1/K7xakWoNDr3XW8qujqpC/rJrYR1PZLJ6VVwbf+BebD0qSt2czaA=="  // Hashed value of "Password123!"
+                    Email = "john.doe@example.com",
+                    PasswordHash = "AQAAAAIAAYagAAAAEPxuvpHZd4Sjm1/K7xakWoNDr3XW8qujqpC/rJrYR1PZLJ6VVwbf+BebD0qSt2czaA==",
+                    FirstName = "John",
+                    LastName = "Doe"
                 }
             );
         }
