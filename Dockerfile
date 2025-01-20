@@ -21,4 +21,7 @@ RUN dotnet publish "ECommerceOrderManagement.API.csproj" -c Release -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=build /src /src
+COPY --from=build /root/.dotnet/tools /root/.dotnet/tools
+ENV PATH="${PATH}:/root/.dotnet/tools"
 ENTRYPOINT ["dotnet", "ECommerceOrderManagement.API.dll"] 
