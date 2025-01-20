@@ -136,4 +136,7 @@
 /Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/ECommerceOrderManagement.API.pdb
 /Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/ECommerceOrderManagement.API.genruntimeconfig.cache
 /Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/ref/ECommerceOrderManagement.API.dll
-/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/ECommerceOrderManagement.API.csproj.CopyComplete
+/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/bin/Debug/net8.0/ECommerceOrderManagement.API.staticwebassets.endpoints.json
+/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/staticwebassets.build.endpoints.json
+/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/staticwebassets/msbuild.ECommerceOrderManagement.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.API/obj/Debug/net8.0/ECommerc.6E83D87D.Up2Date

@@ -634,7 +634,10 @@
           "FluentValidation": "11.9.0"
         },
         "runtime": {
-          "ECommerceOrderManagement.Core.dll": {}
+          "ECommerceOrderManagement.Core.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "R6zWOnHsQVDaxw3zLCdlR705ESttSbU1GF4CMPQ2G3BeFgL8yL3QoC/Ncl+3vdLcQ39NytEhL0qpkOSHyOL3yA==",
+  "dgSpecHash": "jrsj272cRQY=",
   "success": true,
   "projectFilePath": "/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Infrastructure/ECommerceOrderManagement.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -52,7 +52,9 @@
     "/Users/bilalsengul/.nuget/packages/system.text.encoding.codepages/6.0.0/system.text.encoding.codepages.6.0.0.nupkg.sha512",
     "/Users/bilalsengul/.nuget/packages/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg.sha512",
     "/Users/bilalsengul/.nuget/packages/system.text.json/8.0.0/system.text.json.8.0.0.nupkg.sha512",
-    "/Users/bilalsengul/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
+    "/Users/bilalsengul/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
+    "/Users/bilalsengul/.nuget/packages/microsoft.netcore.app.ref/8.0.11/microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
+    "/Users/bilalsengul/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512"
   ],
   "logs": []
 }

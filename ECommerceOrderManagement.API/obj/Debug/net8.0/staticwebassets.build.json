@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "QIF/+KQ/J3+hjAvkoAvCt/nnXQIs/3lYfFKbRZKFo0c=",
+  "Hash": "0nkgkLmQqeBg+xbGpNSikVkQEK4Pa84/CVMmlyvsvkw=",
   "Source": "ECommerceOrderManagement.API",
   "BasePath": "_content/ECommerceOrderManagement.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

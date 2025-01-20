@@ -15,4 +15,4 @@
 /Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Infrastructure/obj/Debug/net8.0/ECommerceOrderManagement.Infrastructure.pdb
 /Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Infrastructure/obj/Debug/net8.0/ECommerceOrderManagement.Infrastructure.genruntimeconfig.cache
 /Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Infrastructure/obj/Debug/net8.0/ref/ECommerceOrderManagement.Infrastructure.dll
-/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Infrastructure/obj/Debug/net8.0/ECommerceOrderManagement.Infrastructure.csproj.CopyComplete
+/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Infrastructure/obj/Debug/net8.0/ECommerc.7A68BC28.Up2Date
