@@ -1,0 +1,58 @@
+@startuml Order Creation Sequence
+
+actor Client
+participant "API Controller" as API
+participant "Order Service" as Service
+participant "Order Repository" as Repo
+participant "Cache Service" as Cache
+participant "Message Queue" as Queue
+participant "Webhook Service" as Webhook
+database "Database" as DB
+
+Client -> API : POST /api/orders
+activate API
+
+API -> Service : CreateOrderAsync(createOrderDto)
+activate Service
+
+Service -> Repo : ValidateOrderAsync(order)
+activate Repo
+Repo -> DB : Check product stock
+DB --> Repo : Return stock info
+Repo --> Service : Validation result
+deactivate Repo
+
+alt Order validation successful
+    Service -> Repo : AddAsync(order)
+    activate Repo
+    Repo -> DB : Save order
+    DB --> Repo : Confirm save
+    Repo --> Service : Return saved order
+    deactivate Repo
+
+    Service -> Cache : RemoveAsync("orders_*")
+    activate Cache
+    Cache --> Service : Cache cleared
+    deactivate Cache
+
+    Service -> Queue : PublishAsync("order_created", order)
+    activate Queue
+    Queue --> Service : Message published
+    deactivate Queue
+
+    Service -> Webhook : SendOrderCreatedWebhookAsync(order)
+    activate Webhook
+    Webhook --> Service : Webhook sent
+    deactivate Webhook
+
+    Service --> API : Return OrderDto
+    API --> Client : 201 Created with OrderDto
+else Order validation failed
+    Service --> API : Return validation error
+    API --> Client : 400 Bad Request with error details
+end
+
+deactivate Service
+deactivate API
+
+@enduml 

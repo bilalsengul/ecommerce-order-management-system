@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-order-management
+  labels:
+    app: ecommerce-order-management
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecommerce-order-management
+  template:
+    metadata:
+      labels:
+        app: ecommerce-order-management
+    spec:
+      containers:
+      - name: api
+        image: ${DOCKER_USERNAME}/ecommerce-order-management:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: connection-string
+        - name: ConnectionStrings__Redis
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: connection-string
+        - name: RabbitMQ__Host
+          valueFrom:
+            configMapKeyRef:
+              name: rabbitmq-config
+              key: host
+        - name: RabbitMQ__Username
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: username
+        - name: RabbitMQ__Password
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: password
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerce-order-management
+spec:
+  selector:
+    app: ecommerce-order-management
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  host: "rabbitmq-service"
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ecommerce-order-management
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ecommerce-order-management
+            port:
+              number: 80 

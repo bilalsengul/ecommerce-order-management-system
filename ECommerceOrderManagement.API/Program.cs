@@ -142,12 +142,12 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     try
     {
-        context.Database.EnsureCreated(); // This will create the database and apply the model configuration
-        Log.Information("Database created successfully");
+        context.Database.Migrate(); // This will create the database and apply migrations
+        Log.Information("Database migrations applied successfully");
     }
     catch (Exception ex)
     {
-        Log.Error(ex, "An error occurred while creating the database");
+        Log.Error(ex, "An error occurred while applying database migrations");
         throw;
     }
 }

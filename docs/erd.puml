@@ -1,0 +1,46 @@
+@startuml E-Commerce Order Management System ERD
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) #x#
+
+table(User) {
+  primary_key(Id) : Guid
+  Username : string
+  Email : string
+  PasswordHash : string
+  FirstName : string
+  LastName : string
+}
+
+table(Order) {
+  primary_key(Id) : Guid
+  OrderNumber : string
+  OrderDate : DateTime
+  TotalAmount : decimal
+  Status : string
+  foreign_key(UserId) : Guid
+}
+
+table(OrderItem) {
+  primary_key(Id) : Guid
+  foreign_key(OrderId) : Guid
+  foreign_key(ProductId) : Guid
+  Quantity : int
+  UnitPrice : decimal
+  TotalPrice : decimal
+}
+
+table(Product) {
+  primary_key(Id) : Guid
+  Name : string
+  Description : string
+  Price : decimal
+  StockQuantity : int
+}
+
+User "1" -- "0..*" Order : has >
+Order "1" -- "1..*" OrderItem : contains >
+Product "1" -- "0..*" OrderItem : included in >
+
+@enduml 

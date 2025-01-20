@@ -1,58 +1,61 @@
 # E-Commerce Order Management System
 
-A scalable and modern order management system built with ASP.NET Core, following clean architecture principles and implementing various enterprise patterns and practices.
+A scalable and robust order management system for e-commerce platforms, built with .NET 8.0 and following clean architecture principles.
 
 ## Features
 
-- Order creation and management
-- Real-time order status updates via webhooks
+- Order Creation and Management
+- Real-time Order Status Updates
+- Webhook Notifications
 - Caching with Redis
-- Message queuing with RabbitMQ
+- Message Queue Integration with RabbitMQ
+- JWT Authentication
+- API Documentation with Swagger
 - Monitoring with Prometheus and Grafana
-- Comprehensive logging with Serilog
-- API documentation with Swagger/OpenAPI
-- JWT-based authentication
-- Docker containerization
+- Containerization with Docker
+- Kubernetes Deployment Support
 
 ## Technology Stack
 
 - ASP.NET Core 8.0
-- PostgreSQL
-- Entity Framework Core
-- Redis
-- RabbitMQ
-- AutoMapper
-- FluentValidation
-- Serilog
-- Prometheus
-- Grafana
-- Docker & Docker Compose
+- PostgreSQL for data persistence
+- Entity Framework Core for ORM
+- Redis for caching
+- RabbitMQ for message queuing
+- Serilog for structured logging
+- FluentValidation for request validation
+- AutoMapper for object mapping
+- Swagger/OpenAPI for API documentation
+- Docker for containerization
+- Kubernetes for orchestration
+- Prometheus and Grafana for monitoring
 
 ## Prerequisites
 
 - .NET 8.0 SDK
 - Docker and Docker Compose
-- Git
+- PostgreSQL (if running locally)
+- Redis (if running locally)
+- RabbitMQ (if running locally)
 
 ## Getting Started
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ecommerce-order-management.git
-   cd ecommerce-order-management
+   git clone https://github.com/yourusername/ecommerce-order-management-system.git
+   cd ecommerce-order-management-system
    ```
 
-2. Run the application using Docker Compose:
+2. Run with Docker Compose:
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
-3. Access the services:
-   - API: http://localhost:5000
-   - Swagger Documentation: http://localhost:5000/swagger
-   - RabbitMQ Management: http://localhost:15672
-   - Prometheus: http://localhost:9090
-   - Grafana: http://localhost:3000
+3. Access the API:
+   - API: http://localhost:8080
+   - Swagger Documentation: http://localhost:8080/swagger
+   - Prometheus Metrics: http://localhost:9090
+   - Grafana Dashboard: http://localhost:3000
 
 ## Project Structure
 
@@ -60,9 +63,13 @@ A scalable and modern order management system built with ASP.NET Core, following
 ├── ECommerceOrderManagement.API           # API Layer
 ├── ECommerceOrderManagement.Core          # Domain Layer
 ├── ECommerceOrderManagement.Infrastructure # Infrastructure Layer
-├── docker-compose.yml                     # Docker Compose configuration
-├── Dockerfile                             # Docker configuration
-└── README.md                              # Project documentation
+├── tests
+│   ├── ECommerceOrderManagement.API.Tests
+│   ├── ECommerceOrderManagement.Core.Tests
+│   └── ECommerceOrderManagement.Infrastructure.Tests
+├── docs                                   # Documentation
+├── k8s                                    # Kubernetes Manifests
+└── docker-compose.yml                     # Docker Compose Configuration
 ```
 
 ## API Endpoints
@@ -70,51 +77,49 @@ A scalable and modern order management system built with ASP.NET Core, following
 ### Orders
 
 - `POST /api/orders` - Create a new order
+- `GET /api/orders` - Get all orders
 - `GET /api/orders/{id}` - Get order by ID
-- `GET /api/orders/user/{userId}` - Get orders by user
-- `GET /api/orders/filter/date` - Filter orders by date range
-- `GET /api/orders/filter/amount` - Filter orders by amount range
-- `POST /api/orders/{id}/cancel` - Cancel an order
+- `GET /api/orders/by-date-range` - Get orders by date range
+- `GET /api/orders/by-amount-range` - Get orders by amount range
+- `PUT /api/orders/{id}/cancel` - Cancel an order
 
-## Configuration
+## Authentication
 
-The application can be configured through the following configuration files:
-- `appsettings.json`
-- `appsettings.Development.json`
-- `docker-compose.yml`
-- `prometheus.yml`
+The API uses JWT Bearer authentication. Include the JWT token in the Authorization header:
+
+```
+Authorization: Bearer <your-token>
+```
+
+## CI/CD Pipeline
+
+The project uses GitHub Actions for CI/CD:
+
+1. Build and Test
+   - Restore dependencies
+   - Build solution
+   - Run unit tests
+   - Run integration tests
+   - Generate code coverage report
+
+2. Docker Build and Push
+   - Build Docker image
+   - Push to Docker Hub
+
+3. Deployment
+   - Deploy to Kubernetes cluster (if configured)
 
 ## Monitoring and Logging
 
-- Logs are stored in the `logs` directory and can be viewed in Grafana
-- Metrics are collected by Prometheus and visualized in Grafana
-- Default Grafana credentials:
-  - Username: admin
-  - Password: admin
-
-## Development
-
-To run the application locally:
-
-1. Update connection strings in `appsettings.Development.json`
-2. Run required services using Docker Compose:
-   ```bash
-   docker-compose up -d postgres redis rabbitmq
-   ```
-3. Run the API:
-   ```bash
-   cd ECommerceOrderManagement.API
-   dotnet run
-   ```
+- Prometheus metrics available at `/metrics`
+- Grafana dashboards for visualization
+- Structured logging with Serilog
+- Log aggregation in JSON format
 
 ## Testing
 
-The project includes:
-- Unit tests
-- Integration tests
-- API tests
+Run the tests:
 
-To run tests:
 ```bash
 dotnet test
 ```
@@ -129,4 +134,15 @@ dotnet test
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Documentation
+
+- [API Documentation](docs/api.md)
+- [Database Schema](docs/erd.puml)
+- [Sequence Diagrams](docs/order-creation-sequence.puml)
+- [Deployment Guide](docs/deployment.md)
+
+## Support
+
+For support, please open an issue in the GitHub repository.

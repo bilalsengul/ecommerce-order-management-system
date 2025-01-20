@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "i/EWxot/yms=",
+  "dgSpecHash": "ovPg24kiDA5HgCa7xO9Ll2856eMDpv4JqUp7CcbzVKIW1LksyIvjYU4srE8VvxeC76RxIaM1Ad1JUCo0RXldTw==",
   "success": true,
   "projectFilePath": "/Users/bilalsengul/Desktop/CURSOR/Case G/ecommerce-order-management-system/ECommerceOrderManagement.Core/ECommerceOrderManagement.Core.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/bilalsengul/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/Users/bilalsengul/.nuget/packages/fluentvalidation/11.9.0/fluentvalidation.11.9.0.nupkg.sha512",
+    "/Users/bilalsengul/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
   "logs": []
 }
