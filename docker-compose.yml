@@ -1,15 +1,27 @@
 version: '3.8'
 
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    depends_on:
+      - api
+
   api:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5002:8080"
-      - "5003:443"
+      - "8080:80"
+      - "8081:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=ECommerceOrderManagement;Username=postgres;Password=postgres
       - ConnectionStrings__Redis=redis:6379
       - RabbitMQ__Host=rabbitmq
