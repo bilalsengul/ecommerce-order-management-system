@@ -167,8 +167,20 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     try
     {
-        context.Database.Migrate(); // This will create the database and apply migrations
-        Log.Information("Database migrations applied successfully");
+        // Ensure database exists
+        context.Database.EnsureCreated();
+        
+        // Check if any migrations are pending
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            // Apply migrations
+            context.Database.Migrate();
+            Log.Information("Database migrations applied successfully");
+        }
+        else
+        {
+            Log.Information("No pending migrations found");
+        }
     }
     catch (Exception ex)
     {
