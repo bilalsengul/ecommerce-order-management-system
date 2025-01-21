@@ -170,9 +170,10 @@ using (var scope = app.Services.CreateScope())
     logger.LogInformation("Ensuring database exists and applying migrations...");
     try
     {
-        // Drop and recreate the database to ensure a clean state
+        // Drop the database to ensure a clean state
         context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
+        
+        // Apply migrations
         context.Database.Migrate();
         logger.LogInformation("Database migrations completed successfully");
     }

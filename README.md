@@ -5,6 +5,8 @@ A scalable and robust order management system for e-commerce platforms, built wi
 ## Features
 
 - Order Creation and Management
+- Product Catalog Management
+- User Management and Authentication
 - Real-time Order Status Updates
 - Webhook Notifications
 - Caching with Redis
@@ -13,7 +15,6 @@ A scalable and robust order management system for e-commerce platforms, built wi
 - API Documentation with Swagger
 - Monitoring with Prometheus and Grafana
 - Containerization with Docker
-- Kubernetes Deployment Support
 
 ## Technology Stack
 
@@ -27,22 +28,19 @@ A scalable and robust order management system for e-commerce platforms, built wi
 - AutoMapper for object mapping
 - Swagger/OpenAPI for API documentation
 - Docker for containerization
-- Kubernetes for orchestration
 - Prometheus and Grafana for monitoring
 
 ## Prerequisites
 
 - .NET 8.0 SDK
 - Docker and Docker Compose
-- PostgreSQL (if running locally)
-- Redis (if running locally)
-- RabbitMQ (if running locally)
+- Node.js and npm (for frontend)
 
 ## Getting Started
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ecommerce-order-management-system.git
+   git clone <repository-url>
    cd ecommerce-order-management-system
    ```
 
@@ -51,37 +49,52 @@ A scalable and robust order management system for e-commerce platforms, built wi
    docker compose up -d
    ```
 
-3. Access the API:
-   - API: http://localhost:8080
-   - Swagger Documentation: http://localhost:8080/swagger
-   - Prometheus Metrics: http://localhost:9090
-   - Grafana Dashboard: http://localhost:3000
+3. Access the services:
+   - Frontend: http://localhost:3000
+   - API: http://localhost:80
+   - Swagger Documentation: http://localhost:80/swagger
+   - Prometheus: http://localhost:9090
+   - Grafana: http://localhost:3000
 
 ## Project Structure
 
 ```
 ├── ECommerceOrderManagement.API           # API Layer
+│   ├── Controllers                        # API Controllers
+│   ├── Program.cs                         # Application Entry Point
+│   └── appsettings.json                   # Configuration
 ├── ECommerceOrderManagement.Core          # Domain Layer
+│   ├── DTOs                              # Data Transfer Objects
+│   ├── Entities                          # Domain Entities
+│   ├── Interfaces                        # Interfaces/Contracts
+│   └── Validators                        # Request Validators
 ├── ECommerceOrderManagement.Infrastructure # Infrastructure Layer
-├── tests
-│   ├── ECommerceOrderManagement.API.Tests
-│   ├── ECommerceOrderManagement.Core.Tests
-│   └── ECommerceOrderManagement.Infrastructure.Tests
-├── docs                                   # Documentation
-├── k8s                                    # Kubernetes Manifests
-└── docker-compose.yml                     # Docker Compose Configuration
+│   ├── Data                              # Database Context and Migrations
+│   ├── Repositories                      # Repository Implementations
+│   └── Services                          # Service Implementations
+├── frontend                              # React Frontend Application
+└── docker-compose.yml                    # Docker Compose Configuration
 ```
 
 ## API Endpoints
 
-### Orders
+### Authentication
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/register` - Register new user
 
+### Products
+- `GET /api/products` - Get all products
+- `GET /api/products/{id}` - Get product by ID
+- `POST /api/products` - Create new product
+- `PUT /api/products/{id}` - Update product
+- `DELETE /api/products/{id}` - Delete product
+
+### Orders
 - `POST /api/orders` - Create a new order
 - `GET /api/orders` - Get all orders
 - `GET /api/orders/{id}` - Get order by ID
-- `GET /api/orders/by-date-range` - Get orders by date range
-- `GET /api/orders/by-amount-range` - Get orders by amount range
-- `PUT /api/orders/{id}/cancel` - Cancel an order
+- `PUT /api/orders/{id}/status` - Update order status
+- `DELETE /api/orders/{id}` - Cancel order
 
 ## Authentication
 
@@ -91,38 +104,55 @@ The API uses JWT Bearer authentication. Include the JWT token in the Authorizati
 Authorization: Bearer <your-token>
 ```
 
-## CI/CD Pipeline
+## Database Migrations
 
-The project uses GitHub Actions for CI/CD:
+The application automatically applies database migrations on startup. The migrations include:
+- Product table creation
+- User table creation
+- Order and OrderItem tables creation
+- Initial seed data for products and users
 
-1. Build and Test
-   - Restore dependencies
-   - Build solution
-   - Run unit tests
-   - Run integration tests
-   - Generate code coverage report
+## Environment Variables
 
-2. Docker Build and Push
-   - Build Docker image
-   - Push to Docker Hub
+The following environment variables can be configured in `docker-compose.yml`:
 
-3. Deployment
-   - Deploy to Kubernetes cluster (if configured)
+```yaml
+- ConnectionStrings__DefaultConnection: PostgreSQL connection string
+- ConnectionStrings__Redis: Redis connection string
+- RabbitMQ__Host: RabbitMQ host
+- Jwt__Key: JWT signing key
+- Jwt__Issuer: JWT issuer
+- Jwt__Audience: JWT audience
+```
 
 ## Monitoring and Logging
 
 - Prometheus metrics available at `/metrics`
 - Grafana dashboards for visualization
 - Structured logging with Serilog
-- Log aggregation in JSON format
+- Logs available in the `logs` directory
 
-## Testing
+## Development
 
-Run the tests:
+To run the application in development mode:
 
-```bash
-dotnet test
-```
+1. Start the infrastructure services:
+   ```bash
+   docker compose up -d postgres redis rabbitmq
+   ```
+
+2. Run the API:
+   ```bash
+   cd ECommerceOrderManagement.API
+   dotnet run
+   ```
+
+3. Run the frontend:
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
 
 ## Contributing
 
@@ -131,17 +161,6 @@ dotnet test
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Documentation
-
-- [API Documentation](docs/api.md)
-- [Database Schema](docs/erd.puml)
-- [Sequence Diagrams](docs/order-creation-sequence.puml)
-- [Deployment Guide](docs/deployment.md)
 
 ## Support
 
