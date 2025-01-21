@@ -167,25 +167,14 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
+    logger.LogInformation("Ensuring database exists and applying migrations...");
     try
     {
-        logger.LogInformation("Ensuring database exists and applying migrations...");
-        
         // Drop and recreate the database to ensure a clean state
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-        
-        // Apply migrations
-        if (context.Database.GetPendingMigrations().Any())
-        {
-            logger.LogInformation("Applying pending migrations...");
-            context.Database.Migrate();
-            logger.LogInformation("Migrations applied successfully");
-        }
-        else
-        {
-            logger.LogInformation("No pending migrations found");
-        }
+        context.Database.Migrate();
+        logger.LogInformation("Database migrations completed successfully");
     }
     catch (Exception ex)
     {
