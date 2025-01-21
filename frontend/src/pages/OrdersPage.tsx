@@ -3,20 +3,22 @@ import { useQuery } from '@tanstack/react-query';
 import { ordersApi } from '../api/client';
 import { Order, OrderFilter, OrderStatus } from '../api/types';
 import dayjs from 'dayjs';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function OrdersPage() {
   const [filters, setFilters] = useState<OrderFilter>({});
+  const queryClient = useQueryClient();
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ['orders', filters],
     queryFn: () => ordersApi.getOrders(filters),
   });
 
-  const handleCancelOrder = async (orderNumber: string) => {
+  const handleCancelOrder = async (orderId: string) => {
     try {
-      await ordersApi.cancelOrder(orderNumber);
+      await ordersApi.cancelOrder(orderId);
       // Invalidate and refetch orders
-      // You'll need to set up React Query's QueryClient to make this work
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
     } catch (error) {
       console.error('Failed to cancel order:', error);
     }
@@ -124,7 +126,7 @@ export default function OrdersPage() {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <span
                           className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                            order.status === OrderStatus.Completed
+                            order.status === OrderStatus.Created
                               ? 'bg-green-100 text-green-800'
                               : order.status === OrderStatus.Cancelled
                               ? 'bg-red-100 text-red-800'
@@ -135,9 +137,9 @@ export default function OrdersPage() {
                         </span>
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                        {order.status === OrderStatus.Pending && (
+                        {order.status === OrderStatus.Created && (
                           <button
-                            onClick={() => handleCancelOrder(order.orderNumber)}
+                            onClick={() => handleCancelOrder(order.id)}
                             className="text-red-600 hover:text-red-900"
                           >
                             Cancel

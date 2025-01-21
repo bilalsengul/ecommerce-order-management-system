@@ -7,6 +7,7 @@ using AutoMapper;
 using ECommerceOrderManagement.Core.DTOs;
 using ECommerceOrderManagement.Core.Entities;
 using ECommerceOrderManagement.Core.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace ECommerceOrderManagement.API.Controllers
 {
@@ -18,11 +19,13 @@ namespace ECommerceOrderManagement.API.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IOrderService orderService, IMapper mapper)
+        public OrdersController(IOrderService orderService, IMapper mapper, ILogger<OrdersController> logger)
         {
             _orderService = orderService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -94,15 +97,18 @@ namespace ECommerceOrderManagement.API.Controllers
         [HttpPost("{id}/cancel")]
         public async Task<ActionResult<ApiResponse<OrderDto>>> CancelOrder(Guid id)
         {
+            _logger.LogInformation("Received request to cancel order with ID: {OrderId}", id);
             try
             {
                 await _orderService.CancelOrderAsync(id);
                 var order = await _orderService.GetOrderAsync(id);
                 var orderDto = _mapper.Map<OrderDto>(order);
+                _logger.LogInformation("Successfully cancelled order with ID: {OrderId}", id);
                 return Ok(ApiResponse<OrderDto>.SuccessResponse(orderDto, "Order cancelled successfully"));
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError(ex, "Failed to cancel order with ID: {OrderId}", id);
                 return BadRequest(ApiResponse<OrderDto>.ErrorResponse(ex.Message));
             }
         }

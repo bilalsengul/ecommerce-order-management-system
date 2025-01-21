@@ -152,6 +152,10 @@ app.UseHttpMetrics();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Set the listening URL
+app.Urls.Clear();
+app.Urls.Add("http://+:80");
+
 app.MapControllers();
 
 // Ensure database is created and migrations are applied
