@@ -72,7 +72,10 @@ builder.Services.AddAuthentication(options =>
 
 // Configure PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.MigrationsAssembly("ECommerceOrderManagement.Infrastructure")
+    ));
 
 // Configure Redis
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -170,7 +173,6 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Log.Error(ex, "An error occurred while applying database migrations");
-        throw;
     }
 }
 

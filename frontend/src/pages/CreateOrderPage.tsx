@@ -9,7 +9,6 @@ interface OrderForm {
   items: {
     productId: string;
     quantity: number;
-    price: number;
   }[];
 }
 
@@ -25,7 +24,7 @@ export default function CreateOrderPage() {
   } = useForm<OrderForm>({
     defaultValues: {
       userId: '',
-      items: [{ productId: '', quantity: 1, price: 0 }],
+      items: [{ productId: '', quantity: 1 }],
     },
   });
 
@@ -39,10 +38,9 @@ export default function CreateOrderPage() {
       setIsSubmitting(true);
       const orderData: CreateOrderDto = {
         userId: data.userId,
-        items: data.items.map((item): CreateOrderItemDto => ({
+        orderItems: data.items.map((item): CreateOrderItemDto => ({
           productId: item.productId,
           quantity: item.quantity,
-          price: item.price,
         })),
       };
 
@@ -88,7 +86,7 @@ export default function CreateOrderPage() {
               <h2 className="text-sm font-medium text-gray-900">Order Items</h2>
               <button
                 type="button"
-                onClick={() => append({ productId: '', quantity: 1, price: 0 })}
+                onClick={() => append({ productId: '', quantity: 1 })}
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
               >
                 Add Item
@@ -97,7 +95,7 @@ export default function CreateOrderPage() {
 
             {fields.map((field, index) => (
               <div key={field.id} className="rounded-lg bg-gray-50 p-4">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label
                       htmlFor={`items.${index}.productId`}
@@ -138,30 +136,6 @@ export default function CreateOrderPage() {
                     {errors.items?.[index]?.quantity && (
                       <p className="mt-2 text-sm text-red-600">
                         {errors.items[index]?.quantity?.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor={`items.${index}.price`}
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Price
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      {...register(`items.${index}.price` as const, {
-                        required: 'Price is required',
-                        min: { value: 0, message: 'Price must be at least 0' },
-                      })}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                    {errors.items?.[index]?.price && (
-                      <p className="mt-2 text-sm text-red-600">
-                        {errors.items[index]?.price?.message}
                       </p>
                     )}
                   </div>
