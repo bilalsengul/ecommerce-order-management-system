@@ -165,26 +165,32 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
     try
     {
-        // Ensure database exists
+        logger.LogInformation("Ensuring database exists and applying migrations...");
+        
+        // Drop and recreate the database to ensure a clean state
+        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
         
-        // Check if any migrations are pending
+        // Apply migrations
         if (context.Database.GetPendingMigrations().Any())
         {
-            // Apply migrations
+            logger.LogInformation("Applying pending migrations...");
             context.Database.Migrate();
-            Log.Information("Database migrations applied successfully");
+            logger.LogInformation("Migrations applied successfully");
         }
         else
         {
-            Log.Information("No pending migrations found");
+            logger.LogInformation("No pending migrations found");
         }
     }
     catch (Exception ex)
     {
-        Log.Error(ex, "An error occurred while applying database migrations");
+        logger.LogError(ex, "An error occurred while applying migrations");
+        throw;
     }
 }
 
