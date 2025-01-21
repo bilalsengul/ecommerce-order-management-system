@@ -7,6 +7,7 @@ namespace ECommerceOrderManagement.Core.Interfaces
 {
     public interface IOrderService
     {
+        Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<Order> CreateOrderAsync(Guid userId, IEnumerable<(Guid ProductId, int Quantity)> orderItems);
         Task<Order> GetOrderAsync(Guid orderId);
         Task<IEnumerable<Order>> GetUserOrdersAsync(Guid userId);

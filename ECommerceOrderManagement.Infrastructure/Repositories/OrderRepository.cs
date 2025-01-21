@@ -15,6 +15,16 @@ namespace ECommerceOrderManagement.Infrastructure.Repositories
         {
         }
 
+        public override async Task<IEnumerable<Order>> GetAllAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(Guid userId)
         {
             return await _context.Orders

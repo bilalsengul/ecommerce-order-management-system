@@ -174,5 +174,21 @@ namespace ECommerceOrderManagement.Infrastructure.Services
             }
             return true;
         }
+
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        {
+            var cacheKey = "all-orders";
+            var cachedOrders = await _cacheService.GetAsync<IEnumerable<Order>>(cacheKey);
+            
+            if (cachedOrders != null)
+                return cachedOrders;
+
+            var orders = await _orderRepository.GetAllAsync();
+            
+            if (orders.Any())
+                await _cacheService.SetAsync(cacheKey, orders, TimeSpan.FromMinutes(30));
+
+            return orders;
+        }
     }
 } 

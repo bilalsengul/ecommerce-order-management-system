@@ -25,6 +25,14 @@ namespace ECommerceOrderManagement.API.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<ApiResponse<IEnumerable<OrderDto>>>> GetOrders()
+        {
+            var orders = await _orderService.GetAllOrdersAsync();
+            var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            return Ok(ApiResponse<IEnumerable<OrderDto>>.SuccessResponse(orderDtos));
+        }
+
         [HttpPost]
         public async Task<ActionResult<ApiResponse<OrderDto>>> CreateOrder([FromBody] CreateOrderDto createOrderDto)
         {
