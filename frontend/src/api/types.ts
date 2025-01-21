@@ -5,31 +5,32 @@ export interface Order {
   totalAmount: number;
   status: OrderStatus;
   userId: string;
-  items: OrderItem[];
+  userName: string;
+  orderItems: OrderItem[];
 }
 
 export interface OrderItem {
   id: string;
   productId: string;
+  productName: string;
   quantity: number;
-  price: number;
+  unitPrice: number;
+  totalPrice: number;
 }
 
 export enum OrderStatus {
-  Pending = 'Pending',
-  Completed = 'Completed',
+  Created = 'Created',
   Cancelled = 'Cancelled'
 }
 
 export interface CreateOrderDto {
   userId: string;
-  items: CreateOrderItemDto[];
+  orderItems: CreateOrderItemDto[];
 }
 
 export interface CreateOrderItemDto {
   productId: string;
   quantity: number;
-  price: number;
 }
 
 export interface OrderFilter {

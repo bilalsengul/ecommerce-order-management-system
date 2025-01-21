@@ -137,8 +137,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Enable CORS
+// Enable CORS before routing
 app.UseCors();
+
+// Add routing before other middleware
+app.UseRouting();
 
 app.UseHttpsRedirection();
 
